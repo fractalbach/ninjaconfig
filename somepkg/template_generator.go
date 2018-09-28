@@ -67,11 +67,10 @@ generated.  This file contains enumerator constants that can be used
 throughout the code base.  It is just a list of tile type names.
 
 
-<details><summary>Open List of Tile Type Names</summary>blockquote>
+<details><summary>Open List of Tile Type Names</summary><blockquote>
 
 {{range $key := .Definitions}}{{$key}} \
 {{end}}
-
 </blockquote></details>
 
 
@@ -81,7 +80,6 @@ Tile Types Definitions
 ----------------------------------------------------------------------
 
 
-|--------------------|--------------------|
 |       Symbol       |        Name        |
 |--------------------|--------------------|
 {{range $symbol, $name := .Definitions}}| {{$symbol}} | {{$name}} |

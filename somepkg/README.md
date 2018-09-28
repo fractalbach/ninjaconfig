@@ -19,7 +19,7 @@ The Handwritten Files:
 This README is automatically generated.
 
 Time Generated:
-Sep 28 01:52:06
+Sep 28 02:05:24
 ~~~
 
 
@@ -36,14 +36,13 @@ generated.  This file contains enumerator constants that can be used
 throughout the code base.  It is just a list of tile type names.
 
 
-<details><summary>Open List of Tile Type Names</summary>blockquote>
+<details><summary>Open List of Tile Type Names</summary><blockquote>
 
 grass \
 dirt \
 bush \
 tree \
 water \
-
 
 </blockquote></details>
 
@@ -54,11 +53,16 @@ Tile Types Definitions
 ----------------------------------------------------------------------
 
 
-|--------------------|--------------------|
 |       Symbol       |        Name        |
 |--------------------|--------------------|
 | , | grass |
 | _ | dirt |
+| o | bush |
+| t | tree |
+| ~ | water |
+
+
+|
 | o | bush |
 | t | tree |
 | ~ | water |
