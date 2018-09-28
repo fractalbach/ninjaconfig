@@ -1,0 +1,5 @@
+~ water
+, grass
+_ dirt
+t tree
+o bush
