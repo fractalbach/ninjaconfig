@@ -28,8 +28,8 @@ type TileGen struct {
 	Definitions map[string]string
 }
 
-// Readme is the template for the generated README.md file.
-const Readme = `
+// ReadmeTemplate is the template for the generated README.md file.
+const ReadmeTemplate = `
 Generated Tile Types
 ======================================================================
 
@@ -46,43 +46,24 @@ The Handwritten Files:
 
 
 
-~~~
-This README is automatically generated.
+This README was automatically generated.
 
-Time Generated:
-{{.Timestamp}}
-~~~
-
-
-
-TileType Names
-----------------------------------------------------------------------
-
-The template generator is written in go, and is run when the go
-generate command is called from another file.  The templates for the
-generated code are found within template_generator.go.
-
-First, the tile type definitions are processed, and tile_types.go is
-generated.  This file contains enumerator constants that can be used
-throughout the code base.  It is just a list of tile type names.
-
-
-<details><summary>Open List of Tile Type Names</summary><blockquote>
-
-{{range $key := .Definitions}}{{$key}} \
-{{end}}
-</blockquote></details>
-
-
+Time Generated |
+---------------|
+{{.Timestamp}} |
 
 
 Tile Types Definitions
 ----------------------------------------------------------------------
 
+This defintion table is generated from tile_types.txt.  Each symbol
+corresponds to the Name, which becomes a constant in types.go.  Since
+the following symbols have been defined, they can be used in grid.txt
+to create game worlds!
 
-|       Symbol       |        Name        |
-|--------------------|--------------------|
-{{range $symbol, $name := .Definitions}}| {{$symbol}} | {{$name}} |
+Symbol | Name 
+-------|------
+{{range $key, $val := .Definitions}}{{$key}} | {{$val}}
 {{end}}
 
 `
@@ -152,19 +133,18 @@ func parseTileDefs(s string) map[string]string {
 }
 
 func makeTheFile(templ, filename string) {
-	t := template.Must(template.New("templ").Parse(templ))
-	file, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY, 0644)
+	t := template.Must(template.New(filename).Parse(templ))
+	file, err := os.OpenFile(filename, os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
+	os.Truncate(filename, 0)
 	t.Execute(file, tilegen)
 }
 
 func main() {
-	tilegen.Timestamp = time.Now().Format(time.Stamp)
+	tilegen.Timestamp = time.Now().UTC().Format(time.UnixDate)
 	processTileTypesFile()
-	makeTheFile(Readme, filenameReadme)
+	makeTheFile(ReadmeTemplate, filenameReadme)
 	makeTheFile(CodeTemplate, filenameCodeOutput)
-
 }

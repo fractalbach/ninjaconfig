@@ -15,59 +15,27 @@ The Handwritten Files:
 
 
 
-~~~
-This README is automatically generated.
+This README was automatically generated.
 
-Time Generated:
-Sep 28 02:05:24
-~~~
-
-
-
-TileType Names
-----------------------------------------------------------------------
-
-The template generator is written in go, and is run when the go
-generate command is called from another file.  The templates for the
-generated code are found within template_generator.go.
-
-First, the tile type definitions are processed, and tile_types.go is
-generated.  This file contains enumerator constants that can be used
-throughout the code base.  It is just a list of tile type names.
-
-
-<details><summary>Open List of Tile Type Names</summary><blockquote>
-
-grass \
-dirt \
-bush \
-tree \
-water \
-
-</blockquote></details>
-
-
+Time Generated |
+---------------|
+Fri Sep 28 10:09:27 UTC 2018 |
 
 
 Tile Types Definitions
 ----------------------------------------------------------------------
 
+This defintion table is generated from tile_types.txt.  Each symbol
+corresponds to the Name, which becomes a constant in types.go.  Since
+the following symbols have been defined, they can be used in grid.txt
+to create game worlds!
 
-|       Symbol       |        Name        |
-|--------------------|--------------------|
-| , | grass |
-| _ | dirt |
-| o | bush |
-| t | tree |
-| ~ | water |
-
-
-|
-| o | bush |
-| t | tree |
-| ~ | water |
-
-
- |
+Symbol | Name 
+-------|------
+, | grass
+_ | dirt
+o | bush
+t | tree
+~ | water
 
 

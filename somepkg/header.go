@@ -1,4 +1,4 @@
-//go:generate go run template_generator.go -tags='generator'
+//go:generate go run -tags='generator' template_generator.go
 
 package somepkg
 
