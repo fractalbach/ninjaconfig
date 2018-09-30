@@ -43,7 +43,7 @@ type TileGen struct {
 const ReadmeTemplate = `
 Tile Types Definitions
 ----------------------------------------------------------------------
-
+ 
 Time Generated |
 ---------------|
 {{.Timestamp}} |
@@ -53,9 +53,9 @@ This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
 the following symbols have been defined, they can be used in grid.txt
 to create game worlds!
-
-Symbol | Name
--------|------
+ 
+Symbol | Name 
+-------|------ 
 {{range $key, $val := .Definitions}}{{$key}} | {{$val}}
 {{end}}
 
@@ -68,18 +68,11 @@ const CodeTemplate = `
 
 package somepkg
 
-// Kind corresponds to the possible kinds of ground tiles in the
-// game.  These enumerators are automatically generated from a text
-// file that defines all of the possiblities.
-type Kind int
-
 const (
 	_ Kind = iota
 	{{range $_, $name := .Definitions}}{{$name}}
 	{{end}}
 )
-
-type Property int
 
 const (
 	_ Property = (1 << iota) >> 1
@@ -96,7 +89,7 @@ const (
 	filenameTileTypes  = "tile_types.txt"
 	filenameGrid       = "grid.txt"
 	filenameCodeOutput = "types.go"
-	filenameReadme     = "README.md"
+	filenameReadme     = "readme.md"
 )
 
 var (

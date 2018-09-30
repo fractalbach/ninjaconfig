@@ -3,11 +3,6 @@
 
 package somepkg
 
-// Kind corresponds to the possible kinds of ground tiles in the
-// game.  These enumerators are automatically generated from a text
-// file that defines all of the possiblities.
-type Kind int
-
 const (
 	_ Kind = iota
 	Grass
@@ -18,8 +13,6 @@ const (
 	
 )
 
-type Property int
-
 const (
 	_ Property = (1 << iota) >> 1
 	Burns
@@ -28,10 +21,10 @@ const (
 )
 
 var DefaultProperty = map[Kind]Property {
+	Water: Nowalk,
+	Grass: Burns,
 	Dirt: 0,
 	Tree: Burns | Nowalk,
 	Bush: Burns,
-	Water: Nowalk,
-	Grass: Burns,
 
 }
