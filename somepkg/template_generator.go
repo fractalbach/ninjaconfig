@@ -30,38 +30,20 @@ type TileGen struct {
 
 // ReadmeTemplate is the template for the generated README.md file.
 const ReadmeTemplate = `
-Generated Tile Types
-======================================================================
-
-This directory is an experiment with code generation.  The goal is to
-contain the game world within simple text files, and to have the
-source code generate itself from that.
-
-
-The Handwritten Files:
-
-1. template_generator.go
-2. tile_types.txt
-3. grid.txt
-
-
-
-This README was automatically generated.
+Tile Types Definitions
+----------------------------------------------------------------------
 
 Time Generated |
 ---------------|
 {{.Timestamp}} |
 
 
-Tile Types Definitions
-----------------------------------------------------------------------
-
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
 the following symbols have been defined, they can be used in grid.txt
 to create game worlds!
 
-Symbol | Name 
+Symbol | Name
 -------|------
 {{range $key, $val := .Definitions}}{{$key}} | {{$val}}
 {{end}}
@@ -80,7 +62,7 @@ package somepkg
 type TileType int
 
 const (
-	empty TileType = iota
+	Empty TileType = iota
 	{{range $_, $name := .Definitions}}{{$name}}
 	{{end}}
 )
@@ -121,16 +103,29 @@ func parseTileDefs(s string) map[string]string {
 			continue
 		}
 
-		arr := strings.SplitN(line, " ", 2)
+		arr := strings.Split(line, " ")
 
 		if len(arr) != 2 {
 			continue
 		}
 
-		m[arr[0]] = arr[1]
+		name := capitilizeFirstLetter(arr[1])
+		symbol := arr[0]
+		m[symbol] = name
 	}
 	return m
 }
+
+// capitilizing the first letter is needed in order to make the
+// TileType an exported value.
+func capitilizeFirstLetter(s string) string {
+	if s == "" {
+		return ""
+	}
+	first := strings.ToUpper(s[0:1])
+	return first + s[1:]
+}
+
 
 func makeTheFile(templ, filename string) {
 	t := template.Must(template.New(filename).Parse(templ))
@@ -143,7 +138,7 @@ func makeTheFile(templ, filename string) {
 }
 
 func main() {
-	tilegen.Timestamp = time.Now().UTC().Format(time.UnixDate)
+	tilegen.Timestamp = time.Now().Format(time.UnixDate)
 	processTileTypesFile()
 	makeTheFile(ReadmeTemplate, filenameReadme)
 	makeTheFile(CodeTemplate, filenameCodeOutput)

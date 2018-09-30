@@ -8,11 +8,11 @@ package somepkg
 type TileType int
 
 const (
-	empty TileType = iota
-	grass
-	dirt
-	bush
-	tree
-	water
+	Empty TileType = iota
+	Grass
+	Dirt
+	Bush
+	Tree
+	Water
 	
 )
