@@ -5,12 +5,22 @@ package somepkg
 
 const (
 	_ Kind = iota
+	Empty
 	Water
 	Grass
+	Dirt
 	Tree
 	Bush
-	Vwall
-	Hwall
+	VerticalWall
+	HorizontalWall
+	TopLeftCornerWall
+	TopRightCornerWall
+	BottomLeftCornerWall
+	BottomRightCornerWall
+	LightShade
+	MediumShade
+	DarkShade
+	WaterSource
 	Door
 	
 )
@@ -24,23 +34,43 @@ const (
 )
 
 var DefaultProperty = map[Kind]Property {
+	Empty: 0,
 	Water: Blocks,
 	Grass: Flamable,
+	Dirt: 0,
 	Tree: Blocks | Flamable,
 	Bush: Flamable,
-	Vwall: Blocks,
-	Hwall: Blocks,
+	VerticalWall: Blocks,
+	HorizontalWall: Blocks,
+	TopLeftCornerWall: Blocks,
+	TopRightCornerWall: Blocks,
+	BottomLeftCornerWall: Blocks,
+	BottomRightCornerWall: Blocks,
+	LightShade: 0,
+	MediumShade: 0,
+	DarkShade: 0,
+	WaterSource: 0,
 	Door: Opens,
 
 }
 
 var SymbolToKind = map[string]Kind {
+	".": Empty,
 	"~": Water,
 	",": Grass,
+	"_": Dirt,
 	"t": Tree,
 	"o": Bush,
-	"|": Vwall,
-	"=": Hwall,
+	"║": VerticalWall,
+	"═": HorizontalWall,
+	"╔": TopLeftCornerWall,
+	"╗": TopRightCornerWall,
+	"╚": BottomLeftCornerWall,
+	"╝": BottomRightCornerWall,
+	"░": LightShade,
+	"▒": MediumShade,
+	"▓": DarkShade,
+	"☕": WaterSource,
 	"#": Door,
 	
 }

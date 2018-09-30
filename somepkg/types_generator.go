@@ -53,7 +53,7 @@ to create game worlds!
  
 | Symbol | Name | Default Properties  |
 |:------:|------|---------------------|
-{{range $tile := .Definitions}}| {{printf "%#v" $tile.Symbol}} | {{$tile.Name}} | {{range $p := $tile.Properties}} {{$p}},{{end}} |
+{{range $tile := .Definitions}}| {{$tile.Symbol}} | {{$tile.Name}} | {{range $p := $tile.Properties}} {{$p}},{{end}} |
 {{end}}
 
 `
@@ -133,9 +133,9 @@ func parseTileDefs(s string) {
 		name := capitilizeFirstLetter(arr[1])
 		proplist := []string{}
 
-		// If there aren't any properties, continue now.
+		// If there aren't any properties, finish up.
 		if len(arr) == 2 {
-			continue
+			goto finish
 		}
 
 		// If there are, capitilize their names,
@@ -146,6 +146,7 @@ func parseTileDefs(s string) {
 			tilegen.PropertyNameSet[prop] = true
 		}
 
+	finish:
 		// Add this tile definition to the list.
 		tile := TileDef{
 			Symbol:     symbol,

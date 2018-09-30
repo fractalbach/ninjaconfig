@@ -1,9 +1,17 @@
-. empty
-~ water blocks
-, grass flamable
-_ dirt
-t tree blocks flamable
-o bush flamable
-| Vwall blocks
-= Hwall blocks
-# door opens
+. Empty
+~ Water blocks
+, Grass flamable
+_ Dirt
+t Tree blocks flamable
+o Bush flamable
+║ VerticalWall blocks
+═ HorizontalWall blocks
+╔ TopLeftCornerWall blocks
+╗ TopRightCornerWall blocks
+╚ BottomLeftCornerWall blocks
+╝ BottomRightCornerWall blocks
+░ LightShade
+▒ MediumShade
+▓ DarkShade
+☕ WaterSource
+# Door opens
