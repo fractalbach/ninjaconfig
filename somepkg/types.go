@@ -35,12 +35,12 @@ var DefaultProperty = map[Kind]Property {
 }
 
 var SymbolToKind = map[string]Kind {
-	"~": Water
-	",": Grass
-	"t": Tree
-	"o": Bush
-	"|": Vwall
-	"=": Hwall
-	"#": Door
+	"~": Water,
+	",": Grass,
+	"t": Tree,
+	"o": Bush,
+	"|": Vwall,
+	"=": Hwall,
+	"#": Door,
 	
 }

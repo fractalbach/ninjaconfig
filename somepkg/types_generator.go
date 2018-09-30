@@ -43,7 +43,7 @@ Tile Types Definitions
 ----------------------------------------------------------------------
  
 Time Generated |
--|
+---------------|
 {{.Timestamp}} |
 
 This defintion table is generated from tile_types.txt.  Each symbol
@@ -51,9 +51,9 @@ corresponds to the Name, which becomes a constant in types.go.  Since
 the following symbols have been defined, they can be used in grid.txt
 to create game worlds!
  
-Symbol | Name | Default Properties
--------|------|---------------------
-{{range $tile := .Definitions}}{{$tile.Symbol}} | {{$tile.Name}} | {{range $p := $tile.Properties}} {{$p}},{{end}} |
+| Symbol | Name | Default Properties  |
+|:------:|------|---------------------|
+{{range $tile := .Definitions}}| {{printf "%#v" $tile.Symbol}} | {{$tile.Name}} | {{range $p := $tile.Properties}} {{$p}},{{end}} |
 {{end}}
 
 `
@@ -82,7 +82,7 @@ var DefaultProperty = map[Kind]Property {
 }
 
 var SymbolToKind = map[string]Kind {
-	{{range $tile := .Definitions}}"{{$tile.Symbol}}": {{$tile.Name}}
+	{{range $tile := .Definitions}}"{{$tile.Symbol}}": {{$tile.Name}},
 	{{end}}
 }
 `
