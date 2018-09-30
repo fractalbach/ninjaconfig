@@ -44,7 +44,7 @@ Tile Types Definitions
  
 Time Generated |
 -|
-{.Timestamp}} |
+{{.Timestamp}} |
 
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
@@ -53,7 +53,7 @@ to create game worlds!
  
 Symbol | Name | Default Properties
 -------|------|---------------------
-{{range $tile := .Definitions}}{{$tile.Symbol}} | {{$tile.Name}} | {{$tile.Properties}}
+{{range $tile := .Definitions}}{{$tile.Symbol}} | {{$tile.Name}} | {{range $p := $tile.Properties}} {{$p}},{{end}} |
 {{end}}
 
 `

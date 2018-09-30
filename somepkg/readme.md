@@ -4,7 +4,7 @@ Tile Types Definitions
  
 Time Generated |
 -|
-{.Timestamp}} |
+Sun Sep 30 02:35:26 PDT 2018 |
 
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
@@ -13,12 +13,12 @@ to create game worlds!
  
 Symbol | Name | Default Properties
 -------|------|---------------------
-~ | Water | [Blocks]
-, | Grass | [Flamable]
-t | Tree | [Blocks Flamable]
-o | Bush | [Flamable]
-| | Vwall | [Blocks]
-= | Hwall | [Blocks]
-# | Door | [Opens]
+~ | Water |  Blocks, |
+, | Grass |  Flamable, |
+t | Tree |  Blocks, Flamable, |
+o | Bush |  Flamable, |
+| | Vwall |  Blocks, |
+= | Hwall |  Blocks, |
+# | Door |  Opens, |
 
 
