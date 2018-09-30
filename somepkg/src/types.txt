@@ -13,5 +13,13 @@ o Bush flamable
 ░ LightShade
 ▒ MediumShade
 ▓ DarkShade
-☕ WaterSource
+☕ WaterSource heals
+♨ HotSprings heals
+⚕ HealingSpot heals
+⚠ DangerZone hurts
+☠ PoisonSwamp hurts poison
+☣ Biohazard hurts poison
+☢ Radiation hurts
+♒ VeryWater blocks
 # Door opens
+☆ Goal

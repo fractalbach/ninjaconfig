@@ -4,7 +4,7 @@ Tile Types Definitions
  
 Time Generated |
 ---------------|
-Sun Sep 30 05:38:58 PDT 2018 |
+Sun Sep 30 05:51:29 PDT 2018 |
 
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
@@ -28,7 +28,15 @@ to create game worlds!
 | ░ | LightShade |  |
 | ▒ | MediumShade |  |
 | ▓ | DarkShade |  |
-| ☕ | WaterSource |  |
+| ☕ | WaterSource |  Heals, |
+| ♨ | HotSprings |  Heals, |
+| ⚕ | HealingSpot |  Heals, |
+| ⚠ | DangerZone |  Hurts, |
+| ☠ | PoisonSwamp |  Hurts, Poison, |
+| ☣ | Biohazard |  Hurts, Poison, |
+| ☢ | Radiation |  Hurts, |
+| ♒ | VeryWater |  Blocks, |
 | # | Door |  Opens, |
+| ☆ | Goal |  |
 
 
