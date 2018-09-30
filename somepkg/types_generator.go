@@ -17,26 +17,24 @@ import (
 // template to produce Go source code.
 type TileGen struct {
 
-	// Timestamp is the time at which the templates were
-	// generated. (which is when the go generate command is
-	// called)
+	// Timestamp for when the generation was done.
 	Timestamp string
 
-	// Definitions contains the definitions that give meaning the
-	// grid.txt file.  The definitions are used to generate a
-	// 2-dimensional array of tiles.
-	Definitions map[string]string
-
-	// PropertiesMaps each of the tile types to the default
-	// properties that it has.
-	PropertiesMap map[string]([]string)
-
-	// DefaultProperties is the go code in a string defining a
-	// mapping (tile kind) -> (property bitmask)
-	DefaultProperties string
+	// List of tile definitions extracted from the text source.
+	Definitions []TileDef
 
 	// PropertyNameSet is a unique list of property names.
 	PropertyNameSet map[string]bool
+
+	// DefaultProperties helps map tile types to their properties.
+	// It's a string containing go code.
+	DefaultProperties string
+}
+
+type TileDef struct {
+	Symbol     string
+	Name       string
+	Properties []string
 }
 
 // ReadmeTemplate is the template for the generated README.md file.
@@ -45,18 +43,17 @@ Tile Types Definitions
 ----------------------------------------------------------------------
  
 Time Generated |
----------------|
-{{.Timestamp}} |
-
+-|
+{.Timestamp}} |
 
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
 the following symbols have been defined, they can be used in grid.txt
 to create game worlds!
  
-Symbol | Name 
--------|------ 
-{{range $key, $val := .Definitions}}{{$key}} | {{$val}}
+Symbol | Name | Default Properties
+-------|------|---------------------
+{{range $tile := .Definitions}}{{$tile.Symbol}} | {{$tile.Name}} | {{$tile.Properties}}
 {{end}}
 
 `
@@ -70,7 +67,7 @@ package somepkg
 
 const (
 	_ Kind = iota
-	{{range $_, $name := .Definitions}}{{$name}}
+	{{range $tile := .Definitions}}{{$tile.Name}}
 	{{end}}
 )
 
@@ -83,11 +80,16 @@ const (
 var DefaultProperty = map[Kind]Property {
 {{.DefaultProperties}}
 }
+
+var SymbolToKind = map[string]Kind {
+	{{range $tile := .Definitions}}"{{$tile.Symbol}}": {{$tile.Name}}
+	{{end}}
+}
 `
 
 const (
-	filenameTileTypes  = "tile_types.txt"
-	filenameGrid       = "grid.txt"
+	filenameTileTypes  = "src/types.txt"
+	filenameGrid       = "src/grid.txt"
 	filenameCodeOutput = "types.go"
 	filenameReadme     = "readme.md"
 )
@@ -104,15 +106,13 @@ func processTileTypesFile() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	tilegen.Definitions = parseTileDefs(string(b))
+	parseTileDefs(string(b))
 }
 
 // The parser that scans line-by-line, converting each valid line into
-func parseTileDefs(s string) map[string]string {
+func parseTileDefs(s string) {
 
 	scanner := bufio.NewScanner(strings.NewReader(s))
-	m := make(map[string]string)
-	propMap := make(map[string]([]string))
 	line := ""
 
 	for scanner.Scan() {
@@ -129,28 +129,31 @@ func parseTileDefs(s string) map[string]string {
 			continue
 		}
 
-		name := capitilizeFirstLetter(arr[1])
 		symbol := arr[0]
-		m[symbol] = name
+		name := capitilizeFirstLetter(arr[1])
+		proplist := []string{}
 
 		// If there aren't any properties, continue now.
 		if len(arr) == 2 {
-			propMap[name] = []string{}
 			continue
 		}
 
 		// If there are, capitilize their names,
 		// and add them to the set of all properties.
-		proplist := []string{}
 		for _, v := range arr[2:] {
 			prop := capitilizeFirstLetter(v)
 			proplist = append(proplist, prop)
 			tilegen.PropertyNameSet[prop] = true
 		}
-		propMap[name] = proplist
+
+		// Add this tile definition to the list.
+		tile := TileDef{
+			Symbol:     symbol,
+			Name:       name,
+			Properties: proplist,
+		}
+		tilegen.Definitions = append(tilegen.Definitions, tile)
 	}
-	tilegen.PropertiesMap = propMap
-	return m
 }
 
 // capitilizing the first letter is needed in order to make the
@@ -173,8 +176,10 @@ func capitilizeFirstLetter(s string) string {
 //
 func (tg *TileGen) stringifyPropertyList() {
 	s := ""
-	for name, list := range tg.PropertiesMap {
-		s += "\t" + name + ": "
+	for _, tile := range tg.Definitions {
+
+		list := tile.Properties
+		s += "\t" + tile.Name + ": "
 
 		switch len(list) {
 		case 0:

@@ -1,0 +1,9 @@
+. empty
+~ water blocks
+, grass flamable
+_ dirt
+t tree blocks flamable
+o bush flamable
+| Vwall blocks
+= Hwall blocks
+# door opens

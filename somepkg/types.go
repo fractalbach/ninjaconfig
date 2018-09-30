@@ -5,26 +5,42 @@ package somepkg
 
 const (
 	_ Kind = iota
-	Grass
-	Dirt
-	Bush
-	Tree
 	Water
+	Grass
+	Tree
+	Bush
+	Vwall
+	Hwall
+	Door
 	
 )
 
 const (
 	_ Property = (1 << iota) >> 1
-	Burns
-	Nowalk
+	Blocks
+	Flamable
+	Opens
 	
 )
 
 var DefaultProperty = map[Kind]Property {
-	Water: Nowalk,
-	Grass: Burns,
-	Dirt: 0,
-	Tree: Burns | Nowalk,
-	Bush: Burns,
+	Water: Blocks,
+	Grass: Flamable,
+	Tree: Blocks | Flamable,
+	Bush: Flamable,
+	Vwall: Blocks,
+	Hwall: Blocks,
+	Door: Opens,
 
+}
+
+var SymbolToKind = map[string]Kind {
+	"~": Water
+	",": Grass
+	"t": Tree
+	"o": Bush
+	"|": Vwall
+	"=": Hwall
+	"#": Door
+	
 }

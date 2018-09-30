@@ -1,5 +1,0 @@
-~ water nowalk
-, grass burns
-_ dirt
-t tree burns nowalk
-o bush burns
