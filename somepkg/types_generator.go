@@ -74,7 +74,7 @@ package somepkg
 type Kind int
 
 const (
-	_ TileType = iota
+	_ Kind = iota
 	{{range $_, $name := .Definitions}}{{$name}}
 	{{end}}
 )

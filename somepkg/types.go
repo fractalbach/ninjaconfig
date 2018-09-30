@@ -9,7 +9,7 @@ package somepkg
 type Kind int
 
 const (
-	_ TileType = iota
+	_ Kind = iota
 	Grass
 	Dirt
 	Bush
@@ -28,10 +28,10 @@ const (
 )
 
 var DefaultProperty = map[Kind]Property {
+	Dirt: 0,
+	Tree: Burns | Nowalk,
 	Bush: Burns,
 	Water: Nowalk,
 	Grass: Burns,
-	Dirt: 0,
-	Tree: Burns | Nowalk,
 
 }
