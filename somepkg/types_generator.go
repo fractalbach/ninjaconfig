@@ -26,6 +26,17 @@ type TileGen struct {
 	// grid.txt file.  The definitions are used to generate a
 	// 2-dimensional array of tiles.
 	Definitions map[string]string
+
+	// PropertiesMaps each of the tile types to the default
+	// properties that it has.
+	PropertiesMap map[string]([]string)
+
+	// DefaultProperties is the go code in a string defining a
+	// mapping (tile kind) -> (property bitmask)
+	DefaultProperties string
+
+	// PropertyNameSet is a unique list of property names.
+	PropertyNameSet map[string]bool
 }
 
 // ReadmeTemplate is the template for the generated README.md file.
@@ -57,17 +68,28 @@ const CodeTemplate = `
 
 package somepkg
 
-// TileType corresponds to the possible kinds of ground tiles in the
+// Kind corresponds to the possible kinds of ground tiles in the
 // game.  These enumerators are automatically generated from a text
-// file that defines all of the possiblities.  Empty tiles are
-// automatically included.
-type TileType int
+// file that defines all of the possiblities.
+type Kind int
 
 const (
-	Empty TileType = iota
+	_ TileType = iota
 	{{range $_, $name := .Definitions}}{{$name}}
 	{{end}}
 )
+
+type Property int
+
+const (
+	_ Property = (1 << iota) >> 1
+	{{range $name, $_ := .PropertyNameSet}}{{$name}}
+	{{end}}
+)
+
+var DefaultProperty = map[Kind]Property {
+{{.DefaultProperties}}
+}
 `
 
 const (
@@ -78,7 +100,9 @@ const (
 )
 
 var (
-	tilegen = &TileGen{}
+	tilegen = &TileGen{
+		PropertyNameSet: make(map[string]bool),
+	}
 )
 
 // reads the file into a string, then calls the parser
@@ -95,6 +119,7 @@ func parseTileDefs(s string) map[string]string {
 
 	scanner := bufio.NewScanner(strings.NewReader(s))
 	m := make(map[string]string)
+	propMap := make(map[string]([]string))
 	line := ""
 
 	for scanner.Scan() {
@@ -107,14 +132,31 @@ func parseTileDefs(s string) map[string]string {
 
 		arr := strings.Split(line, " ")
 
-		if len(arr) != 2 {
+		if len(arr) < 2 {
 			continue
 		}
 
 		name := capitilizeFirstLetter(arr[1])
 		symbol := arr[0]
 		m[symbol] = name
+
+		// If there aren't any properties, continue now.
+		if len(arr) == 2 {
+			propMap[name] = []string{}
+			continue
+		}
+
+		// If there are, capitilize their names,
+		// and add them to the set of all properties.
+		proplist := []string{}
+		for _, v := range arr[2:] {
+			prop := capitilizeFirstLetter(v)
+			proplist = append(proplist, prop)
+			tilegen.PropertyNameSet[prop] = true
+		}
+		propMap[name] = proplist
 	}
+	tilegen.PropertiesMap = propMap
 	return m
 }
 
@@ -128,6 +170,42 @@ func capitilizeFirstLetter(s string) string {
 	return first + s[1:]
 }
 
+// stringifyPropertyList converts the propertymap into a string of go
+// code.  If no properties are listed, then it defaults to 0.  If
+// there are, then the properties are combined into a bitmask using
+// Alternation.
+//
+// In other words, for each property, the OR operator is appended to
+// each property name in the list, except for the very last one.
+//
+func (tg *TileGen) stringifyPropertyList() {
+	s := ""
+	for name, list := range tg.PropertiesMap {
+		s += "\t" + name + ": "
+
+		switch len(list) {
+		case 0:
+			s += "0,\n"
+			continue
+
+		case 1:
+			s += list[0] + ",\n"
+			continue
+		}
+
+		// For arrays greater than length of 1, we will split
+		// off the final element.  the | symbol goes after
+		// each element except for the last one.
+		arr, last := list[:len(list)-1], list[len(list)-1]
+
+		for _, v := range arr {
+			s += v + " | "
+		}
+
+		s += last + ",\n"
+	}
+	tg.DefaultProperties = s
+}
 
 func makeTheFile(templ, filename string) {
 	t := template.Must(template.New(filename).Parse(templ))
@@ -142,6 +220,7 @@ func makeTheFile(templ, filename string) {
 func main() {
 	tilegen.Timestamp = time.Now().Format(time.UnixDate)
 	processTileTypesFile()
+	tilegen.stringifyPropertyList()
 	makeTheFile(ReadmeTemplate, filenameReadme)
 	makeTheFile(CodeTemplate, filenameCodeOutput)
 }
