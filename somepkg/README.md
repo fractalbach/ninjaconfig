@@ -4,7 +4,7 @@ Tile Types Definitions
 
 Time Generated |
 ---------------|
-Sat Sep 29 17:13:56 PDT 2018 |
+Sat Sep 29 17:28:14 PDT 2018 |
 
 
 This defintion table is generated from tile_types.txt.  Each symbol
