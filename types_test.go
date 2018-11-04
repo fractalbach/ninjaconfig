@@ -1,4 +1,4 @@
-package somepkg
+package tiledefs
 
 import (
 	"testing"

@@ -1,0 +1,25 @@
+. Empty
+~ Water
+, Grass walkable
+_ Dirt walkable
+t Tree walkable flamable
+o Bush flamable
+║ VerticalWall
+═ HorizontalWall
+╔ TopLeftCornerWall
+╗ TopRightCornerWall
+╚ BottomLeftCornerWall
+╝ BottomRightCornerWall
+░ LightShade
+▒ MediumShade
+▓ DarkShade
+☕ WaterSource heals
+♨ HotSprings heals
+⚕ HealingSpot heals
+⚠ DangerZone hurts
+☠ PoisonSwamp hurts poison
+☣ Biohazard hurts poison
+☢ Radiation hurts
+♒ VeryWater
+# Door opens
+☆ Goal

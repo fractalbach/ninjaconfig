@@ -4,7 +4,7 @@ Tile Types Definitions
  
 Time Generated |
 ---------------|
-Sun Sep 30 05:51:29 PDT 2018 |
+Sat Nov  3 23:36:26 PDT 2018 |
 
 This defintion table is generated from tile_types.txt.  Each symbol
 corresponds to the Name, which becomes a constant in types.go.  Since
@@ -14,17 +14,17 @@ to create game worlds!
 | Symbol | Name | Default Properties  |
 |:------:|------|---------------------|
 | . | Empty |  |
-| ~ | Water |  Blocks, |
-| , | Grass |  Flamable, |
-| _ | Dirt |  |
-| t | Tree |  Blocks, Flamable, |
+| ~ | Water |  |
+| , | Grass |  Walkable, |
+| _ | Dirt |  Walkable, |
+| t | Tree |  Walkable, Flamable, |
 | o | Bush |  Flamable, |
-| ║ | VerticalWall |  Blocks, |
-| ═ | HorizontalWall |  Blocks, |
-| ╔ | TopLeftCornerWall |  Blocks, |
-| ╗ | TopRightCornerWall |  Blocks, |
-| ╚ | BottomLeftCornerWall |  Blocks, |
-| ╝ | BottomRightCornerWall |  Blocks, |
+| ║ | VerticalWall |  |
+| ═ | HorizontalWall |  |
+| ╔ | TopLeftCornerWall |  |
+| ╗ | TopRightCornerWall |  |
+| ╚ | BottomLeftCornerWall |  |
+| ╝ | BottomRightCornerWall |  |
 | ░ | LightShade |  |
 | ▒ | MediumShade |  |
 | ▓ | DarkShade |  |
@@ -35,7 +35,7 @@ to create game worlds!
 | ☠ | PoisonSwamp |  Hurts, Poison, |
 | ☣ | Biohazard |  Hurts, Poison, |
 | ☢ | Radiation |  Hurts, |
-| ♒ | VeryWater |  Blocks, |
+| ♒ | VeryWater |  |
 | # | Door |  Opens, |
 | ☆ | Goal |  |
 
