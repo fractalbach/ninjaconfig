@@ -15,12 +15,19 @@ type Property int
 
 // Tile is a ground tile on the world map.
 type Tile struct {
+	Symbol   string
 	Kind     Kind
 	Property Property
 }
 
+func (t Tile) String() string {
+	return t.Symbol
+}
+
 func DecodeSymbol(s string) (Tile, bool) {
-	t := Tile{}
+	t := Tile{
+		Symbol: s,
+	}
 	kind, ok := SymbolToKind[s]
 	if !ok {
 		return t, false
