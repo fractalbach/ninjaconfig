@@ -18,3 +18,18 @@ type Tile struct {
 	Kind     Kind
 	Property Property
 }
+
+func DecodeSymbol(s string) (Tile, bool) {
+	t := Tile{}
+	kind, ok := SymbolToKind[s]
+	if !ok {
+		return t, false
+	}
+	prop, ok2 := DefaultProperty[kind]
+	if !ok2 {
+		return t, false
+	}
+	t.Kind = kind
+	t.Property = prop
+	return t, true
+}
